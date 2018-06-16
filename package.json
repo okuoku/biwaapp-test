@@ -1,0 +1,15 @@
+{
+  "name": "yuniapp-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "nw-builder": "^3.5.4",
+    "parcel-bundler": "^1.9.0"
+  },
+  "dependencies": {
+    "biwascheme": "^0.6.8",
+    "bootstrap": "^4.1.1",
+    "mithril": "^1.1.6"
+  }
+}
