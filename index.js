@@ -8,17 +8,21 @@ m.render(root, "Hello."); // debug
 var errhook = function(e) { console.error(e); }
 var biwa = new biwas.Interpreter(errhook);
 
-// (js-invoke/async js-obj "method" args ...)
-biwas.define_libfunc("js-invoke/async", 2, null, function(ar){
-    var js_obj = ar.shift();
-    var func_name = ar.shift(); // FIXME: Require underscorejs for isString??
-    return new biwas.Pause(function(pause){
-        var cb = function(){return pause.resume(arguments);};
-        ar.push(cb);
-        js_obj[func_name].apply(js_obj, ar);
-    });
+var libs = {
+    "biwascheme":biwas,
+    "browserfs":bfs,
+    "mithril":m};
+
+// (js-import str) => module
+biwas.define_libfunc("js-import", 1, 1, function(ar){
+    return libs[ar[0]];
 });
 
+var scm = require('fs').readFileSync(__dirname + '/app.scm', 'utf8');
+
+biwa.evaluate(scm, function(res){m.render(root, res);});
+
+/*
 m.request({
     method: "GET",
     url: "/check.scm",
@@ -26,5 +30,6 @@ m.request({
 }).then(function(str){
     biwa.evaluate(str, function(res){m.render(root, res);});
 });
+*/
 
 
